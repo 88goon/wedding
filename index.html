@@ -237,7 +237,7 @@ footer p{margin:0 0 20px;font-size:15px;color:var(--pine-soft)}
   <section aria-labelledby="h-gift">
     <svg class="mini-ridge" viewBox="0 0 44 12" aria-hidden="true"><path d="M0 11 C6 10 9 5 14 6 C18 7 20 2 24 1 C28 0 30 5 34 6 C38 7 41 9 44 9"/></svg>
     <h2 id="h-gift">마음 전하실 곳</h2>
-    <p class="note center" style="margin:-12px 0 24px">참석이 어려우신 분들을 위해 계좌번호를 함께 적어둡니다.</p>
+    <p class="note center" style="margin:-12px 0 24px">멀리서나마 축하의 마음을 전하실 분들을 위해 적어둡니다.</p>
     <div id="accounts"></div>
   </section>
 
@@ -282,7 +282,7 @@ footer p{margin:0 0 20px;font-size:15px;color:var(--pine-soft)}
    ========================================================= */
 const CONFIG = {
   groom: { name: "김용원", father: "김정곤", mother: "이화숙", order: "장남", phone: "010-9271-1109" },
-  bride: { name: "이예림", father: "이성재", mother: "김복남", order: "딸", phone: "010-9146-0894" },
+  bride: { name: "이예림", father: "이성재", mother: "김복남", order: "딸", phone: "" },
 
   // 혼주 연락처 (없으면 빈 문자열로 두면 목록에서 빠집니다)
   groomParentsPhone: { father: "010-3531-2049", mother: "010-8443-9090" },
@@ -324,18 +324,12 @@ const CONFIG = {
 미리 인원을 알려주시면 정성껏 준비하겠습니다.`,
   rsvpDeadline: "11월 6일 금요일까지 알려주시면 감사하겠습니다.",
 
-  accounts: {
-    groom: [
-      { who: "신랑", bank: "OO은행", number: "000-0000-0000-00", holder: "김용원" },
-      { who: "신랑 아버지", bank: "OO은행", number: "000-0000-0000-00", holder: "김정곤" },
-      { who: "신랑 어머니", bank: "OO은행", number: "000-0000-0000-00", holder: "이화숙" }
-    ],
-    bride: [
-      { who: "신부", bank: "OO은행", number: "000-0000-0000-00", holder: "이예림" },
-      { who: "신부 아버지", bank: "OO은행", number: "000-0000-0000-00", holder: "이성재" },
-      { who: "신부 어머니", bank: "OO은행", number: "000-0000-0000-00", holder: "김복남" }
-    ]
-  },
+  // 계좌는 한 목록으로 보여줍니다 (신랑측/신부측 구분 없음)
+  accounts: [
+    { who: "신랑", bank: "신한은행", number: "110-399-824378", holder: "김용원" },
+    { who: "아버지", bank: "농협", number: "782-12-013577", holder: "김정곤" },
+    { who: "어머니", bank: "농협", number: "785-022-065751", holder: "이화숙" }
+  ],
 
   // 사진: photos 폴더에 01.jpg, 02.jpg ... 순서로 넣으세요. 첫 사진이 대표 사진이 됩니다.
   photoFolder: "photos/",
@@ -519,11 +513,11 @@ if (C.rsvpUrl) $("rsvpBtn").href = C.rsvpUrl;
 else $("rsvpBtn").addEventListener("click", (e) => { e.preventDefault(); toast("회신 폼이 아직 연결되지 않았습니다"); });
 
 /* 계좌 */
-[["groom","신랑측"],["bride","신부측"]].forEach(([k, label]) => {
+(function(){
   const det = document.createElement("details"); det.className = "acc";
-  const sum = document.createElement("summary"); sum.textContent = label + "에 마음 전하기";
+  const sum = document.createElement("summary"); sum.textContent = "계좌번호 보기";
   det.appendChild(sum);
-  C.accounts[k].forEach(a => {
+  C.accounts.forEach(a => {
     if (!a.number) return;
     const row = document.createElement("div"); row.className = "acc-row";
     const info = document.createElement("div");
@@ -535,7 +529,7 @@ else $("rsvpBtn").addEventListener("click", (e) => { e.preventDefault(); toast("
     row.append(info, btn); det.appendChild(row);
   });
   $("accounts").appendChild(det);
-});
+})();
 
 /* 연락하기 */
 const ICON_TEL = '<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>';
@@ -554,14 +548,14 @@ function contactRow(rel, name, phone){
 }
 (function buildContacts(){
   const list = $("contactList");
-  [["groom","신랑측","groomParentsPhone","신랑"],["bride","신부측","brideParentsPhone","신부"]].forEach(([k, label, pk, role]) => {
-    const grp = document.createElement("div"); grp.className = "contact-group";
-    const h = document.createElement("h4"); h.textContent = label; grp.appendChild(h);
-    [contactRow(role, C[k].name, C[k].phone),
-     contactRow(role + " 아버지", C[k].father, C[pk].father),
-     contactRow(role + " 어머니", C[k].mother, C[pk].mother)].forEach(r => r && grp.appendChild(r));
-    list.appendChild(grp);
-  });
+  const grp = document.createElement("div"); grp.className = "contact-group";
+  [contactRow("신랑", C.groom.name, C.groom.phone),
+   contactRow("신부", C.bride.name, C.bride.phone),
+   contactRow("아버지", C.groom.father, C.groomParentsPhone.father),
+   contactRow("어머니", C.groom.mother, C.groomParentsPhone.mother),
+   contactRow("아버지", C.bride.father, C.brideParentsPhone.father),
+   contactRow("어머니", C.bride.mother, C.brideParentsPhone.mother)].forEach(r => r && grp.appendChild(r));
+  list.appendChild(grp);
 })();
 function openSheet(){ lastFocus = document.activeElement; $("contactSheet").classList.add("open"); $("contactClose").focus(); }
 function closeSheet(){ $("contactSheet").classList.remove("open"); if (lastFocus) lastFocus.focus(); }
