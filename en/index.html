@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Yongwon & Yerim, You're Invited</title>
+<title>Yongwon & Yerim are getting married</title>
 
 <!-- 카카오톡/문자 공유 시 미리보기. 배포 후 주소와 대표 사진 경로로 바꿔주세요 -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Yongwon & Yerim, You're Invited">
+<meta property="og:title" content="Yongwon & Yerim are getting married">
 <meta property="og:description" content="Sunday, November 15, 2026, 12:00 PM, Geumosan Hotel, Gumi, Korea">
 <meta property="og:image" content="https://88goon.github.io/wedding/photos/og.jpg?v=en1">
 <meta property="og:url" content="https://88goon.github.io/wedding/en/">
@@ -185,7 +185,7 @@ footer p{margin:0 0 20px;font-size:15px;color:var(--pine-soft)}
 
   <section class="greeting" aria-labelledby="h-greet">
     <svg class="mini-ridge" viewBox="0 0 44 12" aria-hidden="true"><path d="M0 11 C6 10 9 5 14 6 C18 7 20 2 24 1 C28 0 30 5 34 6 C38 7 41 9 44 9"/></svg>
-    <h2 id="h-greet">Invitation</h2>
+    <h2 id="h-greet">You&#39;re invited</h2>
     <p id="greetingText"></p>
     <div class="notice" id="noticeText"></div>
 
@@ -229,7 +229,7 @@ footer p{margin:0 0 20px;font-size:15px;color:var(--pine-soft)}
 
 
   <footer>
-    <p>Thank you for your warm wishes. We hope to see you there.</p>
+    <p>We can&#39;t wait to celebrate with you.</p>
     <div class="btn-row" style="margin-top:0">
       <button class="btn solid" type="button" id="shareBtn">Share</button>
       <button class="btn" type="button" id="copyLink">Copy link</button>
@@ -284,16 +284,17 @@ const CONFIG = {
   },
 
   greeting:
-`We are getting married.
+`We're getting married!
 
-Instead of a wedding ceremony,
-we would like to share a relaxed lunch
-with the people who mean so much to us.
+Rather than a formal ceremony,
+we've chosen to celebrate the way
+that feels most like us:
+a long, relaxed lunch
+with the people we love.
 
-It would mean a great deal to have you there
-as we begin our life together.`,
+We'd be so happy to have you there.`,
 
-  notice: "There will be no ceremony. The gathering is a lunch reception.",
+  notice: "A lunch reception only, with no formal ceremony.",
   family: "Together with their families",
 
   howto: [
@@ -363,7 +364,7 @@ $("family").textContent = C.family;
 
 /* 날짜, 달력 */
 $("whenBig").textContent = longDate;
-$("whenSub").textContent = timeLabel(D.hour, D.minute) + " (Korea time), lunch reception";
+$("whenSub").textContent = timeLabel(D.hour, D.minute) + " Korea time, lunch reception";
 (function buildCal(){
   const g = $("calGrid");
   DOW.forEach((d,i) => { const s = document.createElement("span"); s.className = "dow" + (i===0?" sun":""); s.textContent = d; g.appendChild(s); });
