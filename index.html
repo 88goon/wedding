@@ -571,5 +571,40 @@ $("shareBtn").onclick = async () => {
   } else copyText(location.href, "청첩장 링크를 복사했습니다");
 };
 </script>
+  <!-- 당일 안내 팝업 + 참석 회신 섹션 숨기기 -->
+<style>
+.rsvp{display:none !important}
+.notice-bg{position:fixed;inset:0;z-index:70;background:rgba(18,28,23,.5);display:flex;align-items:center;justify-content:center;padding:24px}
+.notice-bg[hidden]{display:none}
+.notice-card{width:100%;max-width:340px;background:var(--paper);border-radius:14px;padding:28px 24px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.notice-card h3{margin:0 0 6px;font-size:19px;font-weight:700}
+.notice-card .sub{margin:0 0 18px;font-family:var(--sans);font-size:13px;color:var(--stone)}
+.notice-card ul{list-style:none;margin:0 0 20px;padding:0;text-align:left}
+.notice-card li{padding:10px 0;border-top:1px solid var(--line);font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--pine-soft)}
+.notice-card li:last-child{border-bottom:1px solid var(--line)}
+.notice-card li b{display:block;font-family:var(--serif);font-size:13px;color:var(--ginkgo);font-weight:700}
+.notice-card button{width:100%;min-height:46px;border:0;border-radius:999px;background:var(--pine);color:var(--paper);font-family:var(--sans);font-size:15px}
+</style>
+<div class="notice-bg" id="dayNotice" role="dialog" aria-modal="true" aria-labelledby="dayNoticeTitle">
+  <div class="notice-card">
+    <h3 id="dayNoticeTitle">당일 안내</h3>
+    <p class="sub">11월 15일 일요일, 금오산호텔 대연회장</p>
+    <ul>
+      <li><b>11:30부터</b>입구 포토월에서 편하게 사진을 남겨 주세요. 식사 중에 찍으셔도 좋습니다.</li>
+      <li><b>12:00</b>식사를 시작하실 수 있고, 10분 정도 저희가 감사 인사를 드립니다.</li>
+      <li><b>이후</b>신랑 신부가 테이블을 돌며 인사드리겠습니다.</li>
+    </ul>
+    <button type="button" id="dayNoticeClose">확인</button>
+  </div>
+</div>
+<script>
+(function(){
+  var bg=document.getElementById("dayNotice");
+  function close(){ bg.hidden=true; }
+  document.getElementById("dayNoticeClose").onclick=close;
+  bg.addEventListener("click",function(e){ if(e.target===bg) close(); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") close(); });
+})();
+</script>
 </body>
 </html>
